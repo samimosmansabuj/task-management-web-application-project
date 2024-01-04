@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Log In | Task Manager</title>
+{% endblock title %}
+
+
+{% block body_content %}
+<div style="width: 40%; margin: auto;">
+    {% if messages %}
+    {% for message in messages %}
+    <p><i>{{message}}</i></p>
+    {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="InputUsername" class="form-label">Username</label>
+            {{form.username}}
+        </div>
+        <div class="mb-3">
+            <label for="InputPassword" class="form-label">Password</label>
+            {{form.password}}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <p style="padding-top: 20px;"><a href="{% url 'forget_password' %}" style="text-decoration: none;">Forget
+            Password</a></p>
+</div>
+{% endblock body_content %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Registration | Task Manager</title>
+{% endblock title %}
+
+
+{% block body_content %}
+<div style="width: 50%; margin: auto;">
+
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <li>{{ field|title }}: {{ error }}</li>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label">First Name</label>
+                    {{form.first_name}}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label">Last Name</label>
+                    {{form.last_name}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label">Username</label>
+                    {{form.username}}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label">User Type</label>
+                    {{form.user_type}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label">Email</label>
+                    {{form.email}}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label">Phone Number</label>
+                    {{form.phone_number}}
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="InputFirstName" class="form-label">Profile Picture</label>
+            {{form.profile_picture}}
+        </div>
+        <div class="mb-3">
+            <label for="InputFirstName" class="form-label">Password</label>
+            {{form.password}}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registration</button>
+    </form>
+</div>
+{% endblock body_content %}
