@@ -110,6 +110,7 @@ EMAIL_HOST_USER = EMAIL  #must enter your email
 EMAIL_HOST_PASSWORD = EMAIL_APP_PASSWORD   #must enter your email app password
 
 #Database Config-----------------***
+DB_ENGINE=django.db.backends.postgresql
 DB_NAME=Database_Name
 DB_USER=Database_USER
 DB_PASSWORD=Database_PASSWORD
