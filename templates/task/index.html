@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Home | Task Manager</title>
+{% endblock title %}
+
+
+{% block body_content %}
+
+<style>
+  .title_button{
+    width: 100%; width: 100%; background-color: transparent; border: transparent;text-decoration: none;color: black;
+  }
+</style>
+
+<table class="table table-striped">
+  <thead>
+    
+    <tr>
+      <th scope="col" style="width: 6%;">
+        <a class="title_button" href="?filter=id">ID {% if filter == 'id' %}*{% endif %}</a>
+      </th>
+      <th scope="col">Title</th>
+      <th scope="col"><a class="title_button" href="?filter=priority">Priority {% if filter == 'priority' %}*{% endif %}</a></th>
+      <th scope="col"><a class="title_button" href="?filter=due_date">Due Date {% if filter == 'due_date' %}*{% endif %}</a></th>
+      <th scope="col"><a class="title_button" href="?filter=created_date">Created Date {% if filter == 'created_date' %}*{% endif %}</a></th>
+      <th scope="col" style="width: 12%;">
+        {% if filter == 'complete' or filter == 'incomplete' %}
+          {% if filter == 'complete' %}
+          <a class="title_button" href="?filter=incomplete">Complete {% if filter == 'complete' %}*{% endif %}</a>
+          {% else %}
+          <a class="title_button" href="?filter=complete">Inomplete {% if filter == 'incomplete' %}*{% endif %}</a>
+          {% endif %}
+        {% else %}
+        <a class="title_button" href="?filter=complete">Status {% if filter == 'complete' %}*{% endif %}</a>
+        {% endif %}
+      </th>
+      <th scope="col" style="width: 8%;">Action</th>
+    </tr>
+
+  </thead>
+  <tbody>
+    {% if task %}
+    {% for task in task %}
+    <tr>
+      <th scope="row">{{task.id}}</th>
+      <td>{{task.title}}</td>
+      <td>{{task.priority}}</td>
+      <td>{{task.due_date}}</td>
+      <td>{{task.created_date}}</td>
+      <td>
+        {% if task.is_complete == True %}
+        Complete
+        {% else %}
+        Incomplete
+        {% endif %}
+      </td>
+      <td><a href="{% url 'task_details' task.id %}">View</a></td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <th colspan="7">No Task Found</th>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+{% endblock body_content %}

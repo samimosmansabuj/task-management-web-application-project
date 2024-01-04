@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Task Details | Task Manager</title>
+{% endblock title %}
+
+
+{% block body_content %}
+<main>
+
+    <section class="py-2 text-center container">
+        <div class="row py-lg-2">
+            <div class="col-lg-12 col-md-8 mx-auto">
+                <h1 class="fw-light">{{task.title}}</h1>
+                <p class="lead text-muted">{{task.description}}</p>
+                <p>
+                    <a class="btn btn-primary my-2">Priority: {{task.get_priority_display}}</a>
+                    <a class="btn btn-secondary my-2">Status: {% if task.is_complete %}Complete{%else%}Incomplete{% endif %}</a>
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="lead text-muted">Task Create Date: {{task.created_date}}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="lead text-muted">Task Due Date: {{task.due_date}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="album py-2 bg-light">
+        <div class="container">
+
+            {% if request.user.user_type == 'Admin' or request.user.user_type == 'Employee' %}
+            {% if task.is_complete == False %}
+            <section class="text-center container">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row py-lg-2">
+                        <div class="col-lg-12 col-md-8 mx-auto">
+                            <div class="row" style="margin: auto; text-align: center;">
+                                <div class="col-2">
+                                    <input type="text" hidden value="{{task.id}}" name="task_id">
+                                </div>
+                                <div class="col-3">
+                                    <input type="file" class="form-control" style="width: 100%;" accept="image"
+                                        name="task_image">
+                                </div>
+                                <div class="col-5" style="text-align: left;">
+                                    <button type="submit" class="form-control btn btn-primary" style="width: 40%;">Add
+                                        Photo</button>
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                            </div>
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if message == 'Image Must Be Set!' %}
+                            <p><i>{{message}}</i></p>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </section>
+            {% endif %}
+            {% endif %}
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+
+                {% if task.task_photo.all %}
+                {% for i in task.task_photo.all %}
+                <div class="col">
+                    <div class="card shadow-sm">
+
+                        <img src="{{i.image.url}}" alt="" width="100%">
+
+                        {% if task.is_complete == False %}
+                        {% if request.user.user_type == 'Admin' or request.user.user_type == 'Employee' %}
+                        <div class="card-body">
+                            <p class="card-text"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="{% url 'delete_image' i.id %}"
+                                        class="btn btn-sm btn-outline-secondary">Delete</a>
+                                </div>
+                                <!-- <small class="text-muted">9 دقائق</small> -->
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No photos for this task yet.</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
+    <section class="text-center container">
+        <div class="row py-lg-2">
+            <div class="col-lg-12 col-md-8 mx-auto">
+                <p>
+                    {% if task.is_complete == False %}
+
+                    {% if request.user.user_type == 'Admin' or request.user.user_type == 'Employee' %}
+                    <a href="{% url 'update_task' task.id %}" class="btn btn-primary my-2">Edit Task</a>
+
+                    {% if request.user.user_type == 'Admin' %}
+                    <a href="{% url 'delete_task' task.id %}" class="btn btn-secondary my-2">
+                        Delete Task
+                    </a>
+                    {% endif %}
+
+                    {% endif %}
+
+                    <a href="{% url 'task_complete' task.id %}" class="btn btn-secondary my-2">
+                        Task Complete
+                    </a>
+                    {% else %}
+                    <a class="btn btn-primary my-2">
+                        Complete Successfully <i class="fa fa-check"></i>
+                    </a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock body_content %}

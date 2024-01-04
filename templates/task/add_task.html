@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if form.instance.id %}
+<title>Update Task | Task Manager</title>
+{% else %}
+<title>Add Task | Task Manager</title>
+{% endif %}
+{% endblock title %}
+
+
+{% block body_content %}
+<div style="width: 70%; margin: auto;">
+    <form method="POST">
+    {% csrf_token %}
+        <div class="mb-3">
+            <label for="InputTitle" class="form-label">Task Title</label>
+            {{form.title}}
+        </div>
+        <div class="mb-3">
+            <label for="InputDescription" class="form-label">Description</label>
+            {{form.description}}
+        </div>
+        
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputDescription" class="form-label">Priority</label>
+                    {{form.priority}}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="InputDescription" class="form-label">Due Date</label>
+                    {{form.due_date}}
+                </div>
+            </div>
+        </div>
+        {% if form.instance.id %}
+        <button type="submit" class="btn btn-primary">Update Task</button>
+        {% else %}
+        <button type="submit" class="btn btn-primary">Add Task</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock body_content %}

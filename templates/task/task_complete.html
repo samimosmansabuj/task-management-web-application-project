@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Task Completation | Task Manager</title>
+{% endblock title %}
+
+
+{% block body_content %}
+<div style="width: 70%; margin: auto;">
+    <form method="POST">
+    {% csrf_token %}
+        <div class="mb-3">
+            <label for="InputTitle" class="form-label">Task Title</label>
+            <input type="url" class="form-control" name="task_title" value="{{task.title}}" readonly disabled>
+        </div>
+        <hr>
+        <div class="mb-3">
+            <label for="InputTitle" class="form-label">Project URL Link</label>
+            <input type="url" class="form-control" name="task_url" required>
+        </div>
+        <div class="mb-3">
+            <label for="InputDescription" class="form-label">Comments</label>
+            <textarea name="task_complete_comment" id="" rows="5" class="form-control"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Complete Task</button>
+    </form>
+</div>
+{% endblock body_content %}

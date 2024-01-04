@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
 from .forms import Registration_Form, Login_Form
-from django.core.mail import send_mail
-from django.contrib import messages
-from django.conf import settings
+from django.contrib.auth import authenticate, login, logout
 from .models import Custom_User
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 import random
 
-# Registration Section Start------------
+# Create your views here.
 def registration(request):
     if request.user.is_authenticated:
-        return HttpResponse("Login Success")
+        return redirect('index')
     
     form = Registration_Form()
     if request.method == 'POST':
@@ -22,12 +22,11 @@ def registration(request):
             return redirect('login')
         print(form.errors)
     return render(request, 'account/registration.html', {'form': form})
-# Registration Section End------------
 
-# Login Section Start------------
+
 def Login(request):
     if request.user.is_authenticated:
-        return HttpResponse("Login Success")
+        return redirect('index')
     
     form = Login_Form()
     if request.method == 'POST':
@@ -41,26 +40,21 @@ def Login(request):
         user = authenticate(username=username, password=password)
         if user:
             login(request, user)
-            return HttpResponse("Login Success")
+            return redirect('index')
         else:
             messages.warning(request, "Password Doesn't Match!")
             return redirect(request.META['HTTP_REFERER'])
     
     return render(request, 'account/login.html', {'form': form})
-# Login Section End------------
 
 
-# Logout Section Start------------
 def Logout(request):
     logout(request)
     return redirect('login')
-# Logout Section End------------
 
-
-# Forget Password Section Start------------
 def forget_password(request):
     if request.user.is_authenticated:
-        return HttpResponse("Login Success")
+        return redirect('index')
     
     if request.method == 'POST':
         otp = random.randint(111111, 999999)
@@ -82,13 +76,11 @@ def forget_password(request):
         else:
             messages.warning(request, 'Email Address Does Not Exists!')
             return redirect(request.META['HTTP_REFERER'])
-
     return render(request, 'account/forget_password.html')
-
 
 def reset_password(request):
     if request.user.is_authenticated:
-        return HttpResponse("Login Success")
+        return redirect('index')
     
     if request.method == 'POST':
         email = request.POST['email']
@@ -104,6 +96,5 @@ def reset_password(request):
         user.save()
         messages.success(request, 'Password Reset Successfully!')
         return redirect('login')
-    
     return redirect('login')
-# Forget Password Section End------------
+

@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="">Home</a>
+    <a class="navbar-brand" href="{% url 'index' %}">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -14,7 +14,7 @@
 
         {% if request.user.user_type == 'Admin' or request.user.user_type == 'Employee' %}
         <li class="nav-item">
-          <a class="nav-link {% if request.path == add_task_url %}active{% endif %}" aria-current="page" href="">
+          <a class="nav-link {% if request.path == add_task_url %}active{% endif %}" aria-current="page" href="{{add_task_url}}">
             Add Task
           </a>
         </li>
@@ -40,7 +40,7 @@
 
       </ul>
 
-      <form class="d-flex" role="search" method="GET" action="">
+      <form class="d-flex" role="search" method="GET" action="{% url 'index' %}">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_key">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
