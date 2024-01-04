@@ -42,7 +42,7 @@ git clone https://github.com/samimosmansabuj/task-management-web-application-pro
 -   Go to the project directory
 
 ```bash
-cd task-manager
+cd task-management-web-application-project
 ```
 
 -   Create a virtual environment
@@ -97,9 +97,9 @@ pip install psycopg2
 
 ### Create environment variables & Config settings.py
 
--   Open the `settings.py` file from `task_manager` directory
+-   Open the `settings.py` file from `task_management` directory
 
--   Create a file named `.env` in the `task_manager` directory and add the following lines
+-   Create a file named `.env` in the `task_management` directory and add the following lines
 
 ```bash
 SECRET_KEY=your_secret_key
@@ -201,7 +201,7 @@ python manage.py createsuperuser
     -   Password: `samimemployee`
 
 
--   Employee Credentials:
+-   Admin Credentials:
     -   Username: `samimadmin`
     -   Password: `samimadmin`
 
