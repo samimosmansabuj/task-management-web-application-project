@@ -98,7 +98,7 @@ class index(LoginRequiredMixin, generic.TemplateView):
         elif filter == 'incomplete':
             task = Task.objects.filter(is_complete=False)
         else:
-            task = Task.objects.all()
+            task = Task.objects.all().order_by('id')
         context['task'] = task
         return render(request, self.template_name, context)
 
