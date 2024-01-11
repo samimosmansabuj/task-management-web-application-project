@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'task', 'account',
     'rest_framework',
+    'notifications'
 ]
 
 MIDDLEWARE = [

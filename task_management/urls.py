@@ -24,6 +24,8 @@ urlpatterns = [
     path('', include('task.urls')),
     path('', include('account.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    
+    path('inbox/notifications/', include('notifications.urls', namespace='notifications')),
 ]
 
 if settings.DEBUG:
