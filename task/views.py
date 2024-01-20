@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.db.models import Case, When, IntegerField
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
 import os
 
 class task_api_view(APIView):
@@ -99,7 +100,23 @@ class index(LoginRequiredMixin, generic.TemplateView):
             task = Task.objects.filter(is_complete=False)
         else:
             task = Task.objects.all().order_by('id')
-        context['task'] = task
+        
+        
+        item_per_page = 5
+        
+        paginator = Paginator(task, item_per_page)
+        page = request.GET.get('page')
+        try:
+            task_list = paginator.page(page)
+        except PageNotAnInteger:
+            task_list = paginator.page(1)
+        except EmptyPage:
+            task_list = paginator.page(1)
+        except InvalidPage:
+            task_list = paginator.page(1)
+        
+        context['task'] = task_list
+        context['paginator'] = paginator
         return render(request, self.template_name, context)
 
 

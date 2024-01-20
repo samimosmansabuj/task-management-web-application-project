@@ -85,4 +85,22 @@
   </tbody>
 </table>
 
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item {% if not task.has_previous %}disabled{% endif %}">
+      <a class="page-link" {% if task.has_previous %}href="?page={{task.previous_page_number}}"{% endif %} tabindex="-1">Previous</a>
+    </li>
+
+    {% for page in paginator.page_range %}
+    <li class="page-item {% if page == task.number %}active{% endif %}">
+      <a class="page-link" href="?page={{page}}">{{page}}</a>
+    </li>
+    {% endfor %}
+
+    <li class="page-item {% if not task.has_next %}disabled{% endif %}">
+      <a class="page-link" {% if task.has_next %}href="?page={{task.next_page_number}}"{% endif %}>Next</a>
+    </li>
+  </ul>
+</nav>
+
 {% endblock body_content %}
