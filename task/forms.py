@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, Task_Photo
+from .models import Task
 
 class Task_Form(forms.ModelForm):
     class Meta:
@@ -20,7 +20,3 @@ class Task_Form(forms.ModelForm):
             }),
         }
 
-class Task_Photo_Form(forms.ModelForm):
-    class Meta:
-        model = Task_Photo
-        fields = ['image']

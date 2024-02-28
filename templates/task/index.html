@@ -27,16 +27,57 @@
           ID {% if filter == 'id' %}*{% endif %}
         </a>
       </th>
+
       <th scope="col">Title</th>
-      <th scope="col"><a class="title_button" href="?filter=priority">
+
+      <th scope="col">
+        <a class="title_button" href="?filter=priority">
           Priority {% if filter == 'priority' %}*{% endif %}
-        </a></th>
+        </a>
+        <!-- <style>
+          .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+          }
+
+          .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+          }
+
+          .dropdown-content a:hover {
+            background-color: #f1f1f1;
+          }
+
+          .dropdown:hover .dropdown-content {
+            display: block;
+          }
+        </style> -->
+
+        <!-- <div class="dropdown">
+          <a href="" class="dropbtn">Priority {% if filter == 'priority' %}*{% endif %}</a>
+          <div class="dropdown-content">
+            <a href="?filter=priority">Option 1</a>
+            <a href="#">Option 2</a>
+            <a href="#">Option 3</a>
+          </div>
+        </div> -->
+
+      </th>
+
       <th scope="col"><a class="title_button" href="?filter=due_date">
           Due Date {% if filter == 'due_date' %}*{% endif %}
         </a></th>
       <th scope="col"><a class="title_button" href="?filter=created_date">
           Created Date {% if filter == 'created_date' %}*{% endif %}
         </a></th>
+
       <th scope="col" style="width: 12%;">
         {% if filter == 'complete' or filter == 'incomplete' %}
         {% if filter == 'complete' %}
@@ -54,6 +95,7 @@
         </a>
         {% endif %}
       </th>
+
       <th scope="col" style="width: 8%;">Action</th>
     </tr>
 
@@ -88,7 +130,8 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
     <li class="page-item {% if not task.has_previous %}disabled{% endif %}">
-      <a class="page-link" {% if task.has_previous %}href="?page={{task.previous_page_number}}"{% endif %} tabindex="-1">Previous</a>
+      <a class="page-link" {% if task.has_previous %}href="?page={{task.previous_page_number}}" {% endif %}
+        tabindex="-1">Previous</a>
     </li>
 
     {% for page in paginator.page_range %}
@@ -98,7 +141,7 @@
     {% endfor %}
 
     <li class="page-item {% if not task.has_next %}disabled{% endif %}">
-      <a class="page-link" {% if task.has_next %}href="?page={{task.next_page_number}}"{% endif %}>Next</a>
+      <a class="page-link" {% if task.has_next %}href="?page={{task.next_page_number}}" {% endif %}>Next</a>
     </li>
   </ul>
 </nav>

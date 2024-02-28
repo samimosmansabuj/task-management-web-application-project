@@ -174,17 +174,14 @@ python manage.py createsuperuser
 
 ## API Details --------
 
--   **Endpoint:** http://127.0.0.1:8000/task-api-view/
+-   **Endpoint:** http://127.0.0.1:8000/api/
 -   **Method:** GET, POST
 -   **Description:**
-    -   Returns all the tasks
--   **Endpoint:** http://127.0.0.1:8000/task-api-view/9/
--   **Method:** GET, PUT, PATCH, DELETE
--   **Description:**
-    -   Returns a single task
-    -   Updates a single task
-    -   Partially updates a single task
-    -   Deletes a single task
+    -   Returns all the Tasks and Task Photo
+    -   Returns a single Task and Task Photo
+    -   Updates a single task and Task Photo
+    -   Partially updates a single task and Task Photo
+    -   Delete a single task and Task Photo
 
 
 <br>

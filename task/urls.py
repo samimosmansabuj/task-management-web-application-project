@@ -1,5 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from .views import *
+
+router = DefaultRouter()
+router.register(r'task-list', TaskAPI, basename='task-list')
+router.register(r'task-photo', TaskPhotoAPI, basename='task-photo')
 
 urlpatterns = [
     path('', index.as_view(), name='index'),
@@ -12,7 +17,5 @@ urlpatterns = [
     path('delete-image/<int:id>/', Delete_Image.as_view(), name='delete_image'),
     path('task/<int:id>/', Task_Details.as_view(), name='task_details'),
     
-    
-    path('task-api-view/', task_api_view.as_view(), name='task_api_view'),
-    path('task-api-view/<int:id>/', task_api_view.as_view(), name='task_api_view'),
+    path('api/', include(router.urls)),
 ]

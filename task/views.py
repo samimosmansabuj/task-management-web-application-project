@@ -1,69 +1,25 @@
-from typing import Any
-from django.http import HttpRequest, HttpResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from django.urls import reverse_lazy
-from django.views import View
-from django.views import generic
-from .forms import Task_Form, Task_Photo_Form
-from .models import Task, Task_Photo
-from .serializer import Task_Serializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.contrib import messages
-from django.db.models import Case, When, IntegerField
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
+from django.db.models import Case, When, IntegerField
+from django.views import View, generic
+from django.urls import reverse_lazy
+from rest_framework import viewsets
+from django.contrib import messages
+from .forms import Task_Form
+from .serializer import *
+from .models import *
 import os
 
-class task_api_view(APIView):
-    def get(self, request, id=None, format=None):
-        if id is not None:
-            task = get_object_or_404(Task, id=id)
-            task_serialize = Task_Serializer(task)
-            return Response(task_serialize.data)
-        else:
-            task = Task.objects.all()
-            task_serialize = Task_Serializer(task, many=True)
-            return Response(task_serialize.data)
-    
-    def post(self, request, format=None):
-        data = request.data
-        data_serialize = Task_Serializer(data=data)
-        if data_serialize.is_valid():
-            data_serialize.save()
-            message = "New Task Added Successfully!"
-            return Response(message)
-        else:
-            return Response(data_serialize.errors)
-    
-    def put(self, request, id, format=None):
-        data = request.data
-        task = get_object_or_404(Task, id=id)
-        task_serialize = Task_Serializer(task, data=data)
-        if task_serialize.is_valid():
-            task_serialize.save()
-            message = "Task Full Updated Successfully!"
-            return Response(message)
-        else:
-            return Response(task_serialize.errors)
-    
-    def patch(self, request, id, format=None):
-        data = request.data
-        task = get_object_or_404(Task, id=id)
-        task_serialize = Task_Serializer(task, data=data, partial=True)
-        if task_serialize.is_valid():
-            task_serialize.save()
-            message = "Task Partial Updated Successfully!"
-            return Response(message)
-        else:
-            return Response(task_serialize.errors)
-    
-    def delete(self, request, id, format=None):
-        task = get_object_or_404(Task, id=id)
-        task.delete()
-        message = "Task Delete Successfully!"
-        return Response(message)
+
+class TaskAPI(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = Task_Serializer
+
+class TaskPhotoAPI(viewsets.ModelViewSet):
+    queryset = Task_Photo.objects.all()
+    serializer_class = TaskPhotoSerializer
 
 
 class index(LoginRequiredMixin, generic.TemplateView):
@@ -80,6 +36,7 @@ class index(LoginRequiredMixin, generic.TemplateView):
             task = Task.objects.filter(title__icontains=search_value)
         elif filter == 'id':
             task = Task.objects.all().order_by('id')
+        
         elif filter == 'priority':
             task = Task.objects.all().order_by(
                 Case(
@@ -90,6 +47,7 @@ class index(LoginRequiredMixin, generic.TemplateView):
                         output_field=IntegerField()
                     ),
             )
+            
         elif filter == 'due_date':
             task = Task.objects.all().order_by('due_date')
         elif filter == 'created_date':
